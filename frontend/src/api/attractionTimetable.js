@@ -1,8 +1,7 @@
 import {getDateTime, getNow, getTodayKonwencik} from "./clock";
 
-// const API_URL = import.meta.env.PROD ? '/index.php' : 'http://localhost:8080/api';
-// const API_URL = '/api';
-const API_URL = 'http://localhost:8080/api';
+// const API_URL = 'http://localhost:8080/api';
+const API_URL = '/api';
 
 function filterPlaces({attr, places, whiteList}) {
     console.log(attr.room)
