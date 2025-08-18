@@ -1,4 +1,4 @@
-DOCKER_IMAGE_NAME=docker.box:5000/hikari-kiosk
+DOCKER_IMAGE_NAME=ghcr.io/xandros15/hikari-kiosk
 UID := $(shell id -u)
 GID := $(shell id -g)
 include .env

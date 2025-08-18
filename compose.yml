@@ -1,15 +1,15 @@
 services:
   frontend:
     restart: always
-    image: docker.box:5000/hikari-kiosk-www-frontend:latest
+    image: ghcr.io/xandros15/hikari-kiosk-www-frontend:latest
   backend:
     restart: always
-    image: docker.box:5000/hikari-kiosk-www-backend:latest
+    image: ghcr.io/xandros15/hikari-kiosk-www-backend:latest
     depends_on:
       - php
   proxy:
     restart: always
-    image: docker.box:5000/hikari-kiosk-www-proxy:latest
+    image: ghcr.io/xandros15/hikari-kiosk-www-proxy:latest
     depends_on:
       - backend
       - frontend
@@ -17,14 +17,14 @@ services:
       - "${HTTP_PORT}:80"
   php:
     restart: always
-    image: docker.box:5000/hikari-kiosk-php:latest
+    image: ghcr.io/xandros15/hikari-kiosk-php:latest
     volumes:
       - ./data:/app/data
     environment:
       TZ: Europe/Warsaw
   cron:
       restart: always
-      image: docker.box:5000/hikari-kiosk-cron:latest
+      image: ghcr.io/xandros15/hikari-kiosk-cron:latest
       volumes:
         - ./data:/app/data
       environment:
