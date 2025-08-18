@@ -1,0 +1,6 @@
+@import "bulma";
+
+:root {
+    --bulma-body-background-color: #3f1770;
+    --bulma-body-color: #ffdd00;
+}

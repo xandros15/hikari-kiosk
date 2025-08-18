@@ -1,0 +1,32 @@
+services:
+  frontend:
+    restart: always
+    image: docker.box:5000/hikari-kiosk-www-frontend:latest
+  backend:
+    restart: always
+    image: docker.box:5000/hikari-kiosk-www-backend:latest
+    depends_on:
+      - php
+  proxy:
+    restart: always
+    image: docker.box:5000/hikari-kiosk-www-proxy:latest
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "${HTTP_PORT}:80"
+  php:
+    restart: always
+    image: docker.box:5000/hikari-kiosk-php:latest
+    volumes:
+      - ./data:/app/data
+    environment:
+      TZ: Europe/Warsaw
+  cron:
+      restart: always
+      image: docker.box:5000/hikari-kiosk-cron:latest
+      volumes:
+        - ./data:/app/data
+      environment:
+        SOURCE_API_ENDPOINT: ${SOURCE_API_ENDPOINT}
+        TZ: Europe/Warsaw

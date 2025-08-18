@@ -1,0 +1,21 @@
+{
+  "name": "hikari/kiosk",
+  "version": "0.1",
+  "authors": [
+    {
+      "name": "xandros",
+      "email": "xandros@animesongs.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Hikari\\Kiosk\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "monolog/monolog": "^3.7",
+    "yiisoft/db-sqlite": "^1.2",
+    "yiisoft/cache-file": "^3.2"
+  }
+}

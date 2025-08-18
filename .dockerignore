@@ -1,0 +1,4 @@
+vendor
+data
+frontend/dist
+frontend/node_modules
