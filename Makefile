@@ -35,6 +35,6 @@ stop:
 log:
 	docker compose logs -f php
 fetch:
-	docker compose exec -u "${UID}:${GID}" -e "SOURCE_API_ENDPOINT=${SOURCE_API_ENDPOINT}" php /app/bin/fetch.sh
+	docker compose exec -e "SOURCE_API_ENDPOINT=${SOURCE_API_ENDPOINT}" php /app/bin/fetch.sh
 import:
 	docker compose exec php php /app/bin/import.php

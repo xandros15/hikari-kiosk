@@ -29,7 +29,7 @@ $db = new Connection(new Driver((string) (new Dsn("sqlite", $dbFile))), $cache);
 $db->createCommand()->setSql(
     <<<SQL
 CREATE TABLE IF NOT EXISTS attraction (
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    id            INTEGER PRIMARY KEY,
     room_id       INTEGER,
     room          TEXT,
     date_start    TEXT,
@@ -53,24 +53,28 @@ SQL
 
 $transaction = $db->beginTransaction();
 $db->createCommand()->delete('attraction')->execute();
-$data = array_map(fn($r) => [
-    'room_id' => $r['room_id'],
-    'room' => $r['room'],
-    'blocks' => json_encode($r['blocks']),
-    'date_start' => $r['date_start'],
-    'duration' => $r['duration'],
-    'date' => $r['date'],
-    'range' => $r['range'],
-    'title' => $r['title'],
-    'description' => $r['description'],
-    'speakers' => json_encode($r['speakers']),
-    'in_english' => $r['in_english'],
-    'language_agnostic' => $r['language_agnostic'],
-    'styles' => json_encode($r['styles']),
-    'non_stop' => $r['non_stop'],
-    'hearing' => $r['hearing'],
-    'level' => $r['level'],
-    'tags' => $r['tags'] === false ? "[]" : json_encode($r['tags']),
-], $json['data']);
-$db->createCommand()->batchInsert('attraction', array_keys($data[0]) , $data)->execute();
+$id = 0;
+$data = array_map(function ($r) use (&$id) {
+    return [
+        'id' => ++$id,
+        'room_id' => $r['room_id'],
+        'room' => $r['room'],
+        'blocks' => json_encode($r['blocks']),
+        'date_start' => $r['date_start'],
+        'duration' => $r['duration'],
+        'date' => $r['date'],
+        'range' => $r['range'],
+        'title' => html_entity_decode($r['title']),
+        'description' => html_entity_decode($r['description']),
+        'speakers' => html_entity_decode(json_encode($r['speakers'])),
+        'in_english' => $r['in_english'],
+        'language_agnostic' => $r['language_agnostic'],
+        'styles' => json_encode($r['styles']),
+        'non_stop' => $r['non_stop'],
+        'hearing' => $r['hearing'],
+        'level' => $r['level'],
+        'tags' => $r['tags'] === false ? "[]" : json_encode($r['tags']),
+    ];
+}, $json['data']);
+$db->createCommand()->batchInsert('attraction', array_keys($data[0]), $data)->execute();
 $transaction->commit();
