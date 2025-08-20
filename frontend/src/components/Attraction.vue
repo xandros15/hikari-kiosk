@@ -1,6 +1,6 @@
 <template>
-    <div class="attraction" :class="{'attraction-in-progress': isInProgress}">
-        <div class="attraction-room">{{ room }}</div>
+    <div class="attraction" :class="{'attraction-in-progress': isInProgress, 'attraction-highlighted': isHighlighted}">
+        <div class="attraction-room" :style="{color: fontColor}">{{ room }}</div>
         <div class="attraction-content">
             <div class="attraction-title">
                 {{ normalizedTitle }}
@@ -64,9 +64,31 @@ export default {
         endDateTime: {
             required: true,
             type: Date
-        }
+        },
+        tags: {
+            required: true,
+            type: Array,
+        },
     },
     computed: {
+        fontColor() {
+            if (!this.room.startsWith('[')) {
+              return '#fff'
+            }
+
+            const buildingLetter = this.room.substring(1, 2)
+            if (buildingLetter === 'A') {
+              return 'rgba(255,229,153)'
+            } else if (buildingLetter === 'N') {
+              return 'rgba(234,153,153)'
+            } else if (buildingLetter === 'R') {
+              return "rgba(164,194,244)"
+            }
+            return '#fff'
+        },
+        isHighlighted(){
+          return this.tags.includes('highlight')
+        },
         isInProgress() {
             return this.time >= this.startDateTime && this.time <= this.endDateTime
         },
@@ -141,6 +163,21 @@ export default {
     &-time-left {
         font-size: small;
         opacity: .8;
+    }
+
+    &-highlighted {
+        position: relative;
+        &:before {
+            content: '';
+            height: 40px;
+            width: 40px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjYwMS45MyAxMS41MyAyNy45NiAzNi45Ij48cGF0aCBkPSJNNjAxLjkyNyAzMC4wNzQ0QzYxMC43MTEgMjYuOTM2NyA2MTMuNzc3IDE5LjkxMzYgNjE1Ljg2OSAxMS41MzI3QzYxOC4wODEgMTkuOTYxMSA2MjEuMTM5IDI3LjE0MDEgNjI5Ljg4OCAzMC4wMjAyQzYyMC45OTcgMzMuMTk4NiA2MTcuODg1IDQwLjU1MDUgNjE2LjIxNCA0OC40MzQ3QzYxNC43NTcgNDUuMDI1OCA2MTMuNDA4IDQxLjIxMzMgNjExLjU0MiAzNy42NzcyQzYwOS41ODEgMzMuOTcxNiA2MDYuMzMzIDMxLjUwNTEgNjAxLjkyNyAzMC4wNzQ0WiIgZmlsbD0iI0VFQUE0NyIvPjwvc3ZnPgo=');
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: -20px;
+            left: -16px;
+        }
     }
 }
 </style>

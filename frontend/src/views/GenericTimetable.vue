@@ -8,6 +8,7 @@
                   :endDateTime="attraction.endDateTime"
                   :date="attraction.day"
                   :time="time"
+                  :tags="attraction.tags"
       />
     </div>
 </template>

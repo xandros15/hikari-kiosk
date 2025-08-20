@@ -12,6 +12,7 @@
                   :startDateTime="attraction.startDateTime"
                   :endDateTime="attraction.endDateTime"
                   :time="time"
+                  :tags="attraction.tags"
       />
     </div>
     <div class="room-right">
@@ -26,6 +27,7 @@
                   :startDateTime="attraction.startDateTime"
                   :endDateTime="attraction.endDateTime"
                   :time="time"
+                  :tags="attraction.tags"
       />
     </div>
   </div>
