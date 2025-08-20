@@ -1,8 +1,8 @@
 <template>
     <div class="easter-egg" :class="subclass">
-        <img class="easter-egg-image" v-if="type === 1" src="./../../assets/hikari-egg.png">
-        <img class="easter-egg-image" v-else-if="type === 2" src="./../../assets/muji-egg.png">
-        <img class="easter-egg-image" v-else-if="type === 3" src="./../../assets/panda-egg.png">
+        <img alt="ester-egg" class="easter-egg-image" v-if="type === 1" src="./../../assets/hikari-egg.png">
+        <img alt="ester-egg" class="easter-egg-image" v-else-if="type === 2" src="./../../assets/muji-egg.png">
+        <img alt="ester-egg" class="easter-egg-image" v-else-if="type === 3" src="./../../assets/panda-egg.png">
     </div>
 </template>
 
