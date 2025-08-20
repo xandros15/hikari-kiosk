@@ -33,6 +33,7 @@ $query = new Query($db);
 $query->select([
     'id',
     'room',
+    'room_id',
     'date_start',
     'duration',
     'title',
@@ -49,13 +50,11 @@ $data = array_map(fn($a) => new \Hikari\Kiosk\AttractionReadModel(
     end: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->modify("+ {$a['duration']} minutes")->format('H:i'),
     title: preg_replace('/^\[\w+]\s/', '', $a['title']),
     description: $a['description'],
-    speaker: implode(', ', array_map(fn($p) => $p['title'], json_decode($a['speakers'], true)['list'] ?? [])),
+    speaker: array_values(array_map(fn($p) => $p['title'], json_decode($a['speakers'], true)['list'] ?? [])),
     room: $a['room'],
-    roomPosition: '',
+    roomId: $a['room_id'],
     block: json_decode($a['blocks'], true)['list'] ?? [],
-    type: implode(', ', json_decode($a['tags'], true)),
-    photoUrl: '',
-    icon: '',
+    tags: json_decode($a['tags'], true),
 ), $query->all());
 
 

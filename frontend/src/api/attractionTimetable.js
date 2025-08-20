@@ -3,19 +3,15 @@ import {getDateTime, getNow, getTodayKonwencik} from "./clock";
 // const API_URL = 'http://localhost:8080/api';
 const API_URL = '/api';
 
-function filterPlaces({attr, places, whiteList}) {
-    if (Array.isArray(whiteList) && whiteList.indexOf('' + attr.id) !== -1) {
-        return true
-    }
-
-    return Array.isArray(places) ? places.indexOf(attr.room) !== -1 : true
+function filterRooms({attr, rooms}) {
+    return Array.isArray(rooms) ? rooms.indexOf(attr.room_id) !== -1 : true
 }
 
-export async function getAll(places, whiteList) {
+export async function getAll(rooms) {
     return await fetch(API_URL)
             .then(r => r.ok ? r.json() : [])
             .then(r => r.filter(i => i.day === getTodayKonwencik()))
-            .then(r => r.filter(attr => places ? filterPlaces({attr, places, whiteList}) : true))
+            .then(r => r.filter(attr => rooms ? filterRooms({attr, rooms}) : true))
             .then(r => r.map(i => {
                 i.startDatetime = getDateTime(i.day, i.start)
                 i.endDatetime = getDateTime(i.day, i.end)

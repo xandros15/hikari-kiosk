@@ -13,13 +13,11 @@ final readonly class AttractionReadModel implements \JsonSerializable
         public string $end,
         public string $title,
         public string $description,
-        public string $speaker,
+        public array $speaker,
         public string $room,
-        public string $roomPosition,
+        public string $roomId,
         public string $block,
-        public string $type,
-        public string $photoUrl,
-        public string $icon,
+        public array $tags,
     ) {
     }
 
@@ -34,11 +32,9 @@ final readonly class AttractionReadModel implements \JsonSerializable
             'description' => $this->description,
             'speaker' => $this->speaker,
             'room' => $this->room,
-            'room_position' => $this->roomPosition,
+            'room_id' => $this->roomId,
             'block' => $this->block,
-            'type' => $this->type,
-            'photo_url' => $this->photoUrl,
-            'icon' => $this->icon,
+            'tags' => $this->tags,
         ];
     }
 }

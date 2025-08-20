@@ -19,8 +19,7 @@ import Attraction from "@/components/Attraction.vue";
 import EasterEgg from "@/components/EasterEgg.vue";
 
 const params = new URLSearchParams(window.location.search)
-const PLACES = params.has('PLACES') ? params.get('PLACES').split(',') : null
-const WHITE_LIST = params.has('WHITE_LIST') ? params.get('WHITE_LIST').split(',') : null
+const ROOMS = params.has('ROOMS') ? params.get('ROOMS').split(',') : null
 const PER_PAGE = params.has('PER_PAGE') ? params.get('PER_PAGE') : 10;
 const MAX_ATTRACTION = params.has('MAX_ATTRACTION') ? params.get('MAX_ATTRACTION') : 60;
 const PAGE_FLIP_TIME = params.has('PAGE_FLIP_TIME') ? params.get('PAGE_FLIP_TIME') : 1000 * 15
@@ -59,7 +58,7 @@ export default {
     async loadAttractions() {
       const onAir = []
       const notReady = []
-      for (const a of await getAll(PLACES, WHITE_LIST)) {
+      for (const a of await getAll(ROOMS)) {
         if (this.time >= a.startDatetime && this.time <= a.endDatetime) {
           onAir.push(a)
         } else {

@@ -1,5 +1,5 @@
 <template>
-  <div class="speedroom" v-if="isSetRooms">
+  <div class="double-room" v-if="isSetRooms">
     <div class="room-left">
       <div v-if="roomLeftName" class="has-text-centered is-2 title">
         <div class="arrow">⇦</div>
@@ -53,7 +53,7 @@ const PAGE_FLIP_TIME = params.has('PAGE_FLIP_TIME') ? params.get('PAGE_FLIP_TIME
 const RELOAD_TIMETABLE_TIME = params.has('RELOAD_TIMETABLE_TIME') ? params.get('RELOAD_TIMETABLE_TIME') : 1000 * 60 * 10
 
 export default {
-  name: 'SpeedRoomTimetable',
+  name: 'DoubleRoomTimetable',
   components: {Attraction},
   data() {
     return {
@@ -81,7 +81,7 @@ export default {
       return this.rightRoomAttractions[0]?.room;
     },
     leftRoomAttractions() {
-      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room === LEFT_ROOM)
+      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room_id === LEFT_ROOM)
       if (this.page === null) {
         return attractions;
       }
@@ -89,7 +89,7 @@ export default {
       return attractions.slice(Math.floor(PER_PAGE / 2) * this.page, (this.page + 1) * Math.floor(PER_PAGE / 2))
     },
     rightRoomAttractions() {
-      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room === RIGHT_ROOM)
+      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room_id === RIGHT_ROOM)
       if (this.page === null) {
         return attractions;
       }
@@ -131,7 +131,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.speedroom {
+.double-room {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem

@@ -6,7 +6,7 @@
                 {{ normalizedTitle }}
             </div>
             <div class="attraction-speaker">
-                {{ speaker }}
+                {{ speaker.join(', ') }}
             </div>
         </div>
         <div class="attraction-time" v-if="isInProgress" :title="startDatetime">
@@ -55,7 +55,7 @@ export default {
         },
         speaker: {
             required: true,
-            type: String,
+            type: Array,
         },
         date: {
             required: true,
