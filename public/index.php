@@ -45,9 +45,8 @@ $query->select([
 
 $data = array_map(fn($a) => new \Hikari\Kiosk\AttractionReadModel(
     id: (int) $a['id'],
-    day: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->format('d-m-Y'),
-    start: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->format('H:i'),
-    end: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->modify("+ {$a['duration']} minutes")->format('H:i'),
+    startDateTime: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->format('Y-m-d H:i:00'),
+    endDateTime: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->modify("+ {$a['duration']} minutes")->format('Y-m-d H:i:00'),
     title: preg_replace('/^\[\w+]\s/', '', $a['title']),
     description: $a['description'],
     speaker: array_values(array_map(fn($p) => $p['title'], json_decode($a['speakers'], true)['list'] ?? [])),

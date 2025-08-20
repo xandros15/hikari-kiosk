@@ -4,8 +4,8 @@
                   :title="attraction.title"
                   :room="attraction.room"
                   :speaker="attraction.speaker"
-                  :startDatetime="attraction.startDatetime"
-                  :endDatetime="attraction.endDatetime"
+                  :startDateTime="attraction.startDateTime"
+                  :endDateTime="attraction.endDateTime"
                   :date="attraction.day"
                   :time="time"
       />
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     paginatedAttractions() {
-      const attractions = this.attractions.filter(v => v.endDatetime > this.time)
+      const attractions = this.attractions.filter(v => v.endDateTime > this.time)
       if (this.page === null) {
         return attractions;
       }
@@ -59,14 +59,14 @@ export default {
       const onAir = []
       const notReady = []
       for (const a of await getAll(ROOMS)) {
-        if (this.time >= a.startDatetime && this.time <= a.endDatetime) {
+        if (this.time >= a.startDateTime && this.time <= a.endDateTime) {
           onAir.push(a)
         } else {
           notReady.push(a)
         }
       }
-      onAir.sort((a, b) => a.endDatetime - b.endDatetime)
-      notReady.sort((a, b) => a.startDatetime - b.startDatetime)
+      onAir.sort((a, b) => a.endDateTime - b.endDateTime)
+      notReady.sort((a, b) => a.startDateTime - b.startDateTime)
 
       this.attractions = [...onAir, ...notReady].slice(0, MAX_ATTRACTION);
     },

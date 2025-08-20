@@ -8,9 +8,8 @@ final readonly class AttractionReadModel implements \JsonSerializable
 {
     public function __construct(
         public int $id,
-        public string $day,
-        public string $start,
-        public string $end,
+        public string $startDateTime,
+        public string $endDateTime,
         public string $title,
         public string $description,
         public array $speaker,
@@ -25,9 +24,8 @@ final readonly class AttractionReadModel implements \JsonSerializable
     {
         return [
             'id' => $this->id,
-            'day' => $this->day,
-            'start' => $this->start,
-            'end' => $this->end,
+            'start_date_time' => $this->startDateTime,
+            'end_date_time' => $this->endDateTime,
             'title' => $this->title,
             'description' => $this->description,
             'speaker' => $this->speaker,

@@ -9,7 +9,7 @@
                 {{ speaker.join(', ') }}
             </div>
         </div>
-        <div class="attraction-time" v-if="isInProgress" :title="startDatetime">
+        <div class="attraction-time" v-if="isInProgress" :title="startDateTime">
             <div v-if="isAlmostEnd" class="attraction-status">
                 Kończy się
             </div>
@@ -20,7 +20,7 @@
                 [Zostało {{ toFinish }}]
             </div>
         </div>
-        <div class="attraction-time" v-else-if="isAlmostStart" :title="startDatetime">
+        <div class="attraction-time" v-else-if="isAlmostStart" :title="startDateTime">
             <div class="attraction-status">
                 Zaraz się zacznie
             </div>
@@ -28,8 +28,8 @@
                 [Do rozpoczęcia {{ toStart }}]
             </div>
         </div>
-        <div class="attraction-time" :title="startDatetime" v-else>
-            Start o {{ startDatetime.getHours() }}:{{ (startDatetime.getMinutes() + '').padStart(2, '0') }}
+        <div class="attraction-time" :title="startDateTime" v-else>
+            Start o {{ startDateTime.getHours() }}:{{ (startDateTime.getMinutes() + '').padStart(2, '0') }}
         </div>
     </div>
 </template>
@@ -57,22 +57,18 @@ export default {
             required: true,
             type: Array,
         },
-        date: {
-            required: true,
-            type: String,
-        },
-        startDatetime: {
+        startDateTime: {
             required: true,
             type: Date,
         },
-        endDatetime: {
+        endDateTime: {
             required: true,
             type: Date
         }
     },
     computed: {
         isInProgress() {
-            return this.time >= this.startDatetime && this.time <= this.endDatetime
+            return this.time >= this.startDateTime && this.time <= this.endDateTime
         },
         normalizedTitle() {
             const title = decodeURI(this.title)
@@ -80,20 +76,20 @@ export default {
             return title.length > 70 ? title.substring(0, 67) + '...' : title
         },
         isAlmostEnd() {
-            return ALMOST_END_IN > this.endDatetime - this.time
+            return ALMOST_END_IN > this.endDateTime - this.time
         },
         isAlmostStart() {
-            return ALMOST_START_IN > this.startDatetime - this.time
+            return ALMOST_START_IN > this.startDateTime - this.time
         },
         toStart() {
-            const time = (this.startDatetime - this.time) / 1000;
+            const time = (this.startDateTime - this.time) / 1000;
             const minutes = (Math.floor(time / 60 % 60) + '').padStart(2, '0')
             const seconds = (Math.trunc(time % 60) + '').padStart(2, '0')
 
             return `${minutes}m ${seconds}s`;
         },
         toFinish() {
-            const time = (this.endDatetime - this.time) / 1000;
+            const time = (this.endDateTime - this.time) / 1000;
             const minutes = (Math.floor(time / 60 % 60) + '').padStart(2, '0')
             const hours = (Math.floor(time / 3600) + '');
             const seconds = (Math.trunc(time % 60) + '').padStart(2, '0')

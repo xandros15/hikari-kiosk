@@ -9,23 +9,22 @@
                   :title="attraction.title"
                   :room="attraction.room"
                   :speaker="attraction.speaker"
-                  :startDatetime="attraction.startDatetime"
-                  :endDatetime="attraction.endDatetime"
-                  :date="attraction.day"
+                  :startDateTime="attraction.startDateTime"
+                  :endDateTime="attraction.endDateTime"
                   :time="time"
       />
     </div>
     <div class="room-right">
-      <div v-if="roomRightName" class="has-text-centered is-2 title">{{ roomRightName }}
+      <div v-if="roomRightName" class="has-text-centered is-2 title">
+        {{ roomRightName }}
         <div class="arrow">⇨</div>
       </div>
       <Attraction class="attraction" v-for="attraction in rightRoomAttractions" :key="attraction.id"
                   :title="attraction.title"
                   :room="attraction.room"
                   :speaker="attraction.speaker"
-                  :startDatetime="attraction.startDatetime"
-                  :endDatetime="attraction.endDatetime"
-                  :date="attraction.day"
+                  :startDateTime="attraction.startDateTime"
+                  :endDateTime="attraction.endDateTime"
                   :time="time"
       />
     </div>
@@ -81,7 +80,7 @@ export default {
       return this.rightRoomAttractions[0]?.room;
     },
     leftRoomAttractions() {
-      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room_id === LEFT_ROOM)
+      const attractions = this.attractions.filter(v => v.endDateTime > this.time && v.room_id === LEFT_ROOM)
       if (this.page === null) {
         return attractions;
       }
@@ -89,7 +88,7 @@ export default {
       return attractions.slice(Math.floor(PER_PAGE / 2) * this.page, (this.page + 1) * Math.floor(PER_PAGE / 2))
     },
     rightRoomAttractions() {
-      const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room_id === RIGHT_ROOM)
+      const attractions = this.attractions.filter(v => v.endDateTime > this.time && v.room_id === RIGHT_ROOM)
       if (this.page === null) {
         return attractions;
       }
@@ -106,14 +105,14 @@ export default {
       const onAir = []
       const notReady = []
       for (const a of await getAll([LEFT_ROOM, RIGHT_ROOM])) {
-        if (this.time >= a.startDatetime && this.time <= a.endDatetime) {
+        if (this.time >= a.startDateTime && this.time <= a.endDateTime) {
           onAir.push(a)
         } else {
           notReady.push(a)
         }
       }
-      onAir.sort((a, b) => a.endDatetime - b.endDatetime)
-      notReady.sort((a, b) => a.startDatetime - b.startDatetime)
+      onAir.sort((a, b) => a.endDateTime - b.endDateTime)
+      notReady.sort((a, b) => a.startDateTime - b.startDateTime)
 
       this.attractions = [...onAir, ...notReady].slice(0, MAX_ATTRACTION);
     },
