@@ -1,7 +1,7 @@
 <template>
   <div class="speedroom" v-if="isSetRooms">
     <div class="room-left">
-      <div class="has-text-centered is-2 title">
+      <div v-if="roomLeftName" class="has-text-centered is-2 title">
         <div class="arrow">⇦</div>
         {{ roomLeftName }}
       </div>
@@ -16,7 +16,7 @@
       />
     </div>
     <div class="room-right">
-      <div class="has-text-centered is-2 title">{{ roomRightName }}
+      <div v-if="roomRightName" class="has-text-centered is-2 title">{{ roomRightName }}
         <div class="arrow">⇨</div>
       </div>
       <Attraction class="attraction" v-for="attraction in rightRoomAttractions" :key="attraction.id"
@@ -59,8 +59,6 @@ export default {
     return {
       page: 0,
       isSetRooms: false,
-      roomLeftName: null,
-      roomRightName: null,
       attractions: [],
       time: getNow(),
       interval: null,
@@ -71,13 +69,17 @@ export default {
       this.time = getNow()
     }, 1000)
     this.isSetRooms = LEFT_ROOM && RIGHT_ROOM
-    this.roomLeftName = LEFT_ROOM
-    this.roomRightName = RIGHT_ROOM
     await this.loadAttractions()
     setInterval(() => this.loadAttractions(), RELOAD_TIMETABLE_TIME)
     setInterval(() => this.changePage(), PAGE_FLIP_TIME)
   },
   computed: {
+    roomLeftName(){
+      return this.leftRoomAttractions[0]?.room;
+    },
+    roomRightName(){
+      return this.rightRoomAttractions[0]?.room;
+    },
     leftRoomAttractions() {
       const attractions = this.attractions.filter(v => v.endDatetime > this.time && v.room === LEFT_ROOM)
       if (this.page === null) {
@@ -119,7 +121,7 @@ export default {
       ++this.page
       if (
           this.leftRoomAttractions.length === 0
-          || this.rightRoomAttractions.length === 0
+          && this.rightRoomAttractions.length === 0
       ) {
         this.page = 0
       }
@@ -141,24 +143,7 @@ export default {
 }
 
 .arrow {
-  //transform: scale(2);
   display: inline-block;
   position: relative;
-  //top: 30px;
-  //line-height: 1;
-  //animation: 1s infinite alternate arrow-spin;
-  //animation-delay: 0s;
-  //animation-timing-function: linear;
-  //overflow: hidden;
-  //left: 15px
-}
-
-@keyframes arrow-spin {
-  //from {
-  //  transform: rotateX(0deg) scale(2)
-  //}
-  //to {
-  //  transform: rotateX(180deg)  scale(2)
-  //}
 }
 </style>
