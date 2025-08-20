@@ -7,8 +7,12 @@ default:
 	docker compose exec php sh
 start:
 	docker compose up -d --remove-orphans
+	docker compose restart backend
+	docker compose restart proxy
 start-prod:
 	docker compose up -d --remove-orphans --pull always
+	docker compose restart backend
+	docker compose restart proxy
 build:
 	docker build -t ${DOCKER_IMAGE_NAME}-php:latest --target php .
 	docker build -t ${DOCKER_IMAGE_NAME}-www-frontend:latest --target www-frontend .
