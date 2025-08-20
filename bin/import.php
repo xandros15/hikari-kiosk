@@ -65,9 +65,10 @@ function normalizeRoomName(string $roomName): string
 }
 
 $id = 0;
-$data = array_map(function ($r) use (&$id) {
+$hasId = isset($json['data'][0]['id']);
+$data = array_map(function ($r) use (&$id, $hasId) {
     return [
-        'id' => ++$id,
+        'id' => $hasId ? $r['id'] : ++$id,
         'room_id' => $r['room_id'],
         'room' => normalizeRoomName($r['room']),
         'blocks' => json_encode($r['blocks']),
