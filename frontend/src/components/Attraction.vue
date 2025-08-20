@@ -75,7 +75,9 @@ export default {
             return this.time >= this.startDatetime && this.time <= this.endDatetime
         },
         normalizedTitle() {
-            return this.title.length > 70 ? this.title.substring(0, 67) + '...' : this.title
+            const title = decodeURI(this.title)
+
+            return title.length > 70 ? title.substring(0, 67) + '...' : title
         },
         isAlmostEnd() {
             return ALMOST_END_IN > this.endDatetime - this.time
