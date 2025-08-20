@@ -53,12 +53,23 @@ SQL
 
 $transaction = $db->beginTransaction();
 $db->createCommand()->delete('attraction')->execute();
+
+//@todo remove after api will be fixed
+function normalizeRoomName(string $roomName): string
+{
+    if (preg_match("/^\[(\w+)]/", $roomName, $m) && str_ends_with($roomName, " {$m[1]}")) {
+        return mb_substr($roomName, 0, -(mb_strlen(" {$m[1]}")));
+    }
+
+    return $roomName;
+}
+
 $id = 0;
 $data = array_map(function ($r) use (&$id) {
     return [
         'id' => ++$id,
         'room_id' => $r['room_id'],
-        'room' => $r['room'],
+        'room' => normalizeRoomName($r['room']),
         'blocks' => json_encode($r['blocks']),
         'date_start' => $r['date_start'],
         'duration' => $r['duration'],

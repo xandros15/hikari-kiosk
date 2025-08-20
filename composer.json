@@ -16,6 +16,7 @@
     "php": "^8.3",
     "monolog/monolog": "^3.7",
     "yiisoft/db-sqlite": "^1.2",
-    "yiisoft/cache-file": "^3.2"
+    "yiisoft/cache-file": "^3.2",
+    "ext-mbstring": "*"
   }
 }
