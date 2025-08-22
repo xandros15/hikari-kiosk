@@ -29,7 +29,7 @@ $db = new Connection(new Driver((string) (new Dsn("sqlite", $dbFile))), $cache);
 $db->createCommand()->setSql(
     <<<SQL
 CREATE TABLE IF NOT EXISTS attraction (
-    id            INTEGER PRIMARY KEY,
+    id            TEXT PRIMARY KEY,
     room_id       INTEGER,
     room          TEXT,
     date_start    TEXT,
@@ -64,11 +64,9 @@ function normalizeRoomName(string $roomName): string
     return $roomName;
 }
 
-$id = 0;
-$hasId = isset($json['data'][0]['id']);
-$data = array_map(function ($r) use (&$id, $hasId) {
+$data = array_map(function ($r) {
     return [
-        'id' => $hasId ? $r['id'] : ++$id,
+        'id' => md5("{$r['agenda_item_id']}{$r['room_id']}{$r['date_start']}"),
         'room_id' => $r['room_id'],
         'room' => normalizeRoomName($r['room']),
         'blocks' => json_encode($r['blocks']),
