@@ -44,7 +44,7 @@ $query->select([
 ])->from('attraction')->andFilterWhere(['non_stop' => 0]);
 
 $data = array_map(fn($a) => new \Hikari\Kiosk\AttractionReadModel(
-    id: (int) $a['id'],
+    id: (string) $a['id'],
     startDateTime: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->format('Y-m-d H:i:00'),
     endDateTime: \DateTimeImmutable::createFromFormat('Y-m-d H:i', $a['date_start'])->modify("+ {$a['duration']} minutes")->format('Y-m-d H:i:00'),
     title: preg_replace('/^\[\w+]\s/', '', $a['title']),

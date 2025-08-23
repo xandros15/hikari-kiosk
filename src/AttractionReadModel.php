@@ -7,7 +7,7 @@ namespace Hikari\Kiosk;
 final readonly class AttractionReadModel implements \JsonSerializable
 {
     public function __construct(
-        public int $id,
+        public string $id,
         public string $startDateTime,
         public string $endDateTime,
         public string $title,
